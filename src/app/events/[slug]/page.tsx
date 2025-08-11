@@ -1,11 +1,7 @@
 import { getEventBySlug } from "../../../lib/events";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: { slug: string };
-}
-
-export default async function EventDetailPage({ params }: Props) {
+export default async function EventDetailPage({ params }: { params: { slug: string } }) {
   const evt = await getEventBySlug(params.slug);
   if (!evt) return notFound();
   return (
@@ -15,11 +11,11 @@ export default async function EventDetailPage({ params }: Props) {
         <h1 className="text-[#111418] tracking-light text-[34px] font-bold leading-tight mb-4">{evt.title}</h1>
         <div
           className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg mb-6"
-          style={{ backgroundImage: `url(${evt.image})` }}
+          style={{ backgroundImage: `url(${evt.image || '/event-placeholder.svg'})` }}
           aria-label={evt.title}
         />
         <div className="prose max-w-none">
-          {evt.content.split(/\n\n+/).map((block, i) => {
+          {(evt.content || '').split(/\n\n+/).map((block, i) => {
             if (block.startsWith("## ")) {
               return (
                 <h2 key={i} className="text-xl mt-6 mb-2">

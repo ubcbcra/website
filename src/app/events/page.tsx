@@ -25,7 +25,7 @@ export default async function EventsPage(): Promise<React.JSX.Element> {
                 </div>
                 <div
                   className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
-                  style={{ backgroundImage: `url(${e.image})` }}
+                  style={{ backgroundImage: `url(${e.image || '/event-placeholder.svg'})` }}
                   aria-label={e.title}
                 />
               </a>

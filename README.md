@@ -20,54 +20,26 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Managing Events & Members via Google Forms + Sheets
+## Managing Events (Static)
 
-Non-developers can update site content using Google Forms responses published as CSV.
+Events are now a static array in `src/lib/events.ts`. To add or edit an event:
+1. Open `src/lib/events.ts`.
+2. Duplicate an existing object inside the `events` array.
+3. Change `slug`, `title`, `date` (YYYY-MM-DD), `excerpt`, `content`, `image`.
+4. Save and the dev server will hot-reload. For production, redeploy.
 
-### 1. Create Forms
-Create two forms with these field names (order can vary but headers must match after submission):
+Sorting: events are shown newest first by `date`.
 
-Events form headers: `slug, title, date, category, excerpt, image, body`
-Members form headers: `role, name, contact, image, description, order`
+Content formatting: simple headings starting with `## ` become section headers. Add blank lines between paragraphs.
 
-### 2. Publish the Response Sheets as CSV
-In each linked responses Sheet: File → Publish to the web → Select the responses sheet tab → Format: CSV → Publish → copy URL.
+If you later want non-developers to edit content, you can reintroduce a sheet/markdown loader or integrate a lightweight CMS.
 
-The URL will look like: `https://docs.google.com/spreadsheets/d/.../pub?output=csv`
+## Editing Members
 
-### 3. Add Environment Variables
-Create `.env.local` (not committed) and add:
-```
-EVENTS_SHEET_CSV_URL=https://docs.google.com/...events...&output=csv
-MEMBERS_SHEET_CSV_URL=https://docs.google.com/...members...&output=csv
-```
-Restart the dev server after changes.
-
-### 4. How It Works
-- Server components call async loaders in `src/lib/events.ts` & `src/lib/members.ts`.
-- CSV is fetched (public) and parsed; minimal in-memory cache (5 min) + Next.js revalidate.
-- If fetch fails or env vars absent, a fallback static dataset is used.
-
-### 5. Editing Content
-Submit a new form response or directly edit the Sheet row (headers unchanged). Changes appear within ~5 minutes (cache TTL) or after a redeploy/restart.
-
-### 6. Requirements & Constraints
-- `slug` must be unique (used in /events/[slug]).
-- `date` must be ISO (YYYY-MM-DD) for correct sorting.
-- `order` (members) optional numeric; lower shows earlier.
-- `image` should be a full URL.
-- `body` supports simple markdown-ish headings starting with `##` (rendered as h2); extend with a markdown library if needed.
-
-### 7. Hardening Ideas
-- Switch to Google Sheets API with service account for private editing.
-- Add an On-Demand Revalidation route to purge cache on form submission (Apps Script webhook → /api/revalidate).
-- Add validation (e.g., discard rows missing required fields) – currently basic filtering is in place.
-
-### 8. Extending Markdown
-Replace manual split logic in `events/[slug]/page.tsx` with a markdown parser (`remark`) for richer formatting when needed.
+Members are static in `src/lib/members.ts`. Update entries directly and redeploy.
 
 ---
-Need help evolving this into a full CMS or adding revalidation? Open an issue or ask for guidance.
+Future enhancements (optional): markdown renderer, image optimization, draft flags, pagination.
 
 ## Learn More
 
