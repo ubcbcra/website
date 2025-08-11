@@ -5,8 +5,8 @@ interface Props {
   params: { slug: string };
 }
 
-export default function EventDetailPage({ params }: Props) {
-  const evt = getEventBySlug(params.slug);
+export default async function EventDetailPage({ params }: Props) {
+  const evt = await getEventBySlug(params.slug);
   if (!evt) return notFound();
   return (
     <div className="px-40 flex flex-1 justify-center py-5">

@@ -1,6 +1,6 @@
 import { getSortedEvents } from "../lib/events";
 
-export default function Home(): React.JSX.Element {
+export default async function Home(): Promise<React.JSX.Element> {
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
@@ -83,8 +83,8 @@ export default function Home(): React.JSX.Element {
   );
 }
 
-function HomeEventList() {
-  const items = getSortedEvents().slice(0, 3);
+async function HomeEventList() {
+  const items = (await getSortedEvents()).slice(0, 3);
   return (
     <div>
       {items.map((e) => (

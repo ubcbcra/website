@@ -8,7 +8,8 @@ export interface EventItem {
   image: string;
 }
 
-export const events: EventItem[] = [
+// Fallback in-repo dataset used when no Google Sheet CSV is configured or fetch fails.
+export const fallbackEvents: EventItem[] = [
   {
     slug: "upcoming-residence-meeting",
     title: "Upcoming Residence Meeting",
@@ -74,10 +75,78 @@ export const events: EventItem[] = [
   },
 ];
 
-export function getEventBySlug(slug: string): EventItem | undefined {
-  return events.find((e) => e.slug === slug);
+let eventCache: { ts: number; data: EventItem[] } | null = null;
+const EVENT_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+function parseCSV(csv: string): Record<string, string>[] {
+  const lines = csv.trim().split(/\r?\n/);
+  if (!lines.length) return [];
+  const headers = lines[0].split(',').map((h) => h.trim());
+  return lines.slice(1).filter(Boolean).map((line) => {
+    const cols: string[] = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (ch === ',' && !inQuotes) {
+        cols.push(cur.trim());
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    cols.push(cur.trim());
+    const rec: Record<string, string> = {};
+    headers.forEach((h, idx) => {
+      const raw = cols[idx] || '';
+      rec[h] = raw.replace(/^"|"$/g, '');
+    });
+    return rec;
+  });
 }
 
-export function getSortedEvents(): EventItem[] {
-  return [...events].sort((a, b) => (a.date < b.date ? 1 : -1));
+async function loadEventsFromSheet(): Promise<EventItem[]> {
+  const url = process.env.EVENTS_SHEET_CSV_URL;
+  if (!url) return fallbackEvents;
+  if (eventCache && Date.now() - eventCache.ts < EVENT_TTL_MS) return eventCache.data;
+  try {
+    const res = await fetch(url, { next: { revalidate: 300 } });
+    if (!res.ok) throw new Error('Failed to fetch events sheet');
+    const csv = await res.text();
+    const rows = parseCSV(csv);
+    const items: EventItem[] = rows
+      .map((r) => ({
+        slug: r.slug,
+        title: r.title,
+        date: r.date,
+        category: r.category,
+        excerpt: r.excerpt,
+        content: r.body || r.content || '',
+        image: r.image || r.image_url || '',
+      }))
+      .filter((e) => e.slug && e.title && e.date);
+    items.sort((a, b) => (a.date < b.date ? 1 : -1));
+    eventCache = { ts: Date.now(), data: items };
+    return items;
+  } catch (e) {
+    console.warn('Event sheet load failed, using fallback:', e);
+    return fallbackEvents;
+  }
 }
+
+export async function getEventBySlug(slug: string): Promise<EventItem | undefined> {
+  const data = await loadEventsFromSheet();
+  return data.find((e) => e.slug === slug);
+}
+
+export async function getSortedEvents(): Promise<EventItem[]> {
+  return loadEventsFromSheet();
+}
+
