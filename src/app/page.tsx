@@ -7,10 +7,11 @@ export default async function Home(): Promise<React.JSX.Element> {
         <div className="@container">
           <div className="@[480px]:px-4 @[480px]:py-3">
             <div
-              className="bg-cover bg-center flex flex-col justify-end overflow-hidden bg-white @[480px]:rounded-lg min-h-[218px]"
+              className="bg-cover bg-center flex flex-col justify-end overflow-hidden bg-white @[480px]:rounded-lg min-h-[300px]"
               style={{
+                // Place your real Brock Commons hero image at public/hero.jpg (or .webp) and update filename below.
                 backgroundImage:
-                  "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 25%), url(https://lh3.googleusercontent.com/aida-public/AB6AXuDCN_PDQiIcO9XdrSM2xTB7rVmoo7oaZHIqDpd7w53vhiNHeo9o_Q6anhwLxWC84piP2Y4PTE-KB5HeN96HNx-eM9lQ2YYvK60PzAwIzEsJL6_bg6LivFyd1eR070qYm2GD3ApCCGMj5rSY9JNY-pb4qwAFo2AqeRnv-_mzxQrzRp9SIoQhrw3phLc8KQudr8bpaJpPGbZr8iOZkUzNAEDOnXQFRtqAImoIJhaUnEXsKmChz7MMudXQO8LMsyN-xseBs5aMUFd2lhN3)",
+                  "linear-gradient(0deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 35%), url(/hero.jpg)",
               }}
             >
               <div className="flex p-4">
