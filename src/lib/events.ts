@@ -75,12 +75,33 @@ const events: EventItem[] = [
   },
 ];
 
+import { getCachedEventsFromSheets } from './googleSheets';
+
+// Fallback function to get events from both Google Sheets and static data
+async function getAllEvents(): Promise<EventItem[]> {
+  try {
+    const sheetsEvents = await getCachedEventsFromSheets();
+    
+    // If we have events from sheets, use them; otherwise fall back to static data
+    if (sheetsEvents.length > 0) {
+      return sheetsEvents;
+    }
+  } catch (error) {
+    console.warn('Failed to fetch from Google Sheets, using static events:', error);
+  }
+  
+  // Fallback to static events
+  return events;
+}
+
 export async function getEventBySlug(slug: string): Promise<EventItem | undefined> {
-  return events.find(e => e.slug === slug);
+  const allEvents = await getAllEvents();
+  return allEvents.find(e => e.slug === slug);
 }
 
 export async function getSortedEvents(): Promise<EventItem[]> {
+  const allEvents = await getAllEvents();
   // Sort copy by date descending so newest first
-  return [...events].sort((a, b) => (a.date < b.date ? 1 : -1));
+  return [...allEvents].sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
