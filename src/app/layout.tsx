@@ -19,6 +19,11 @@ const publicSans = Public_Sans({ subsets: ["latin"], variable: "--font-public-sa
 export const metadata: Metadata = {
   title: "UBC BCRA",
   description: "Brock Commons Residence Association",
+  other: {
+    'developer': 'Akshat Kalra',
+    'developer-role': 'VP Internal',
+    'developer-github': 'https://github.com/Akshat-Kalra'
+  }
 };
 
 export default function RootLayout({
@@ -28,34 +33,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Website designed & built by Akshat Kalra (VP Internal) - https://github.com/Akshat-Kalra */}
       <body className={`${geistSans.variable} ${geistMono.variable} ${notoSans.variable} ${publicSans.variable} antialiased`}>
         <div className="relative flex size-full min-h-screen flex-col bg-white overflow-x-hidden">
           <div className="layout-container flex h-full grow flex-col">
             <Navbar />
             {children}
             <footer className="mt-auto px-6 py-8 text-center text-xs text-[#637588] border-t border-[#dce0e5]">
-              <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-                <span className="text-[#111418] text-sm sm:text-base leading-tight">
-                  Designed &amp; built by <span className="font-semibold">Akshat Kalra</span> · <span className="text-[#637588] font-medium">VP Internal</span>
-                </span>
-                <a
-                  href="https://github.com/Akshat-Kalra"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub profile: Akshat Kalra"
-                  className="text-[#637588] hover:text-[#1773cf] transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="22"
-                    height="22"
-                    fill="currentColor"
-                    className="inline-block align-middle"
-                  >
-                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.5-3.9-1.5-.5-1.2-1.2-1.5-1.2-1.5-1-.7.1-.7.1-.7 1.1.1 1.6 1.1 1.6 1.1 1 .1.7 1.8 2.7 1.3.1-.8.4-1.3.7-1.6-2.5-.3-5.1-1.3-5.1-5.7 0-1.3.5-2.4 1.1-3.2-.1-.3-.5-1.5.1-3.1 0 0 .9-.3 3.2 1.1a10.9 10.9 0 0 1 5.8 0c2.3-1.4 3.2-1.1 3.2-1.1.6 1.6.2 2.8.1 3.1.7.8 1.1 1.9 1.1 3.2 0 4.4-2.6 5.4-5.1 5.7.4.3.7 1 .7 2v3c0 .3.2.7.8.6A10.99 10.99 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-                  </svg>
-                </a>
+              <div className="flex flex-col gap-3 items-center justify-center">
+                <p className="text-[#637588] text-base font-normal leading-normal">
+                  © 2025 Brock Commons Residence Association. All rights reserved.
+                </p>
               </div>
             </footer>
           </div>
