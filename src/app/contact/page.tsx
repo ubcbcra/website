@@ -6,7 +6,7 @@ export default function ContactPage(): React.JSX.Element {
           <div className="flex min-w-72 flex-col gap-3">
             <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight">Contact Us</p>
             <p className="text-[#637588] text-sm font-normal leading-normal">
-              We're here to help! Reach out to us with any questions or concerns you may have. Our team is dedicated to providing prompt and helpful assistance to ensure your
+              We&apos;re here to help! Reach out to us with any questions or concerns you may have. Our team is dedicated to providing prompt and helpful assistance to ensure your
               experience at Brock Commons is exceptional.
             </p>
           </div>

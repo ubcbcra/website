@@ -1,4 +1,5 @@
 import { getSortedEvents } from "../lib/events";
+import Link from "next/link";
 
 export default async function Home(): Promise<React.JSX.Element> {
   return (
@@ -31,7 +32,7 @@ export default async function Home(): Promise<React.JSX.Element> {
         </h2>
         <div className="pb-3">
           <div className="flex border-b border-[#dce0e5] px-4 gap-8">
-            <a
+            <Link
               className="flex flex-col items-center justify-center border-b-[3px] border-b-[#111418] text-[#111418] gap-1 pb-[7px] pt-2.5"
               href="/events"
             >
@@ -41,8 +42,8 @@ export default async function Home(): Promise<React.JSX.Element> {
                 </svg>
               </div>
               <p className="text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]">Events</p>
-            </a>
-            <a
+            </Link>
+            <Link
               className="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637588] gap-1 pb-[7px] pt-2.5"
               href="/resources"
             >
@@ -52,8 +53,8 @@ export default async function Home(): Promise<React.JSX.Element> {
                 </svg>
               </div>
               <p className="text-[#637588] text-sm font-bold leading-normal tracking-[0.015em]">Resources</p>
-            </a>
-            <a
+            </Link>
+            <Link
               className="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637588] gap-1 pb-[7px] pt-2.5"
               href="/about"
             >
@@ -63,8 +64,8 @@ export default async function Home(): Promise<React.JSX.Element> {
                 </svg>
               </div>
               <p className="text-[#637588] text-sm font-bold leading-normal tracking-[0.015em]">Community</p>
-            </a>
-            <a
+            </Link>
+            <Link
               className="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637588] gap-1 pb-[7px] pt-2.5"
               href="/contact"
             >
@@ -74,7 +75,7 @@ export default async function Home(): Promise<React.JSX.Element> {
                 </svg>
               </div>
               <p className="text-[#637588] text-sm font-bold leading-normal tracking-[0.015em]">Contact Us</p>
-            </a>
+            </Link>
           </div>
         </div>
         <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">News &amp; Announcements</h2>
@@ -90,7 +91,7 @@ async function HomeEventList() {
     <div>
       {items.map((e) => (
         <div key={e.slug} className="p-4">
-          <a href={`/events/${e.slug}`} className="flex items-stretch justify-between gap-4 rounded-lg group">
+          <Link href={`/events/${e.slug}`} className="flex items-stretch justify-between gap-4 rounded-lg group">
             <div className="flex flex-col gap-1 flex-[2_2_0px]">
               <p className="text-[#637588] text-sm font-normal leading-normal">{formatDisplayDate(e.date)}{e.category ? ` • ${e.category}` : ""}</p>
               <p className="text-[#111418] text-base font-bold leading-tight group-hover:underline">{e.title}</p>
@@ -101,11 +102,11 @@ async function HomeEventList() {
               style={{ backgroundImage: `url(${e.image})` }}
               aria-label={e.title}
             />
-          </a>
+          </Link>
         </div>
       ))}
       <div className="px-4 pt-2">
-        <a href="/events" className="text-sm font-medium text-[#1773cf] hover:underline">View all events →</a>
+  <Link href="/events" className="text-sm font-medium text-[#1773cf] hover:underline">View all events →</Link>
       </div>
     </div>
   );

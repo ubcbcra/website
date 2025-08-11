@@ -1,8 +1,12 @@
 import { getEventBySlug } from "../../../lib/events";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
-export default async function EventDetailPage({ params }: { params: { slug: string } }) {
-  const evt = await getEventBySlug(params.slug);
+// Support both direct object and Promise-based params (Next.js 15 transitional types)
+type EventParams = { slug: string };
+export default async function EventDetailPage({ params }: { params: Promise<EventParams> }) {
+  const { slug } = await params;
+  const evt = await getEventBySlug(slug);
   if (!evt) return notFound();
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
@@ -31,7 +35,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           })}
         </div>
         <div className="mt-10">
-          <a href="/events" className="text-sm font-medium text-[#1773cf] hover:underline">← Back to all events</a>
+          <Link href="/events" className="text-sm font-medium text-[#1773cf] hover:underline">← Back to all events</Link>
         </div>
       </article>
     </div>

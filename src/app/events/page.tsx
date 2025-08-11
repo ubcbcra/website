@@ -1,4 +1,5 @@
 import { getSortedEvents } from "../../lib/events";
+import Link from "next/link";
 
 export default async function EventsPage(): Promise<React.JSX.Element> {
   const items = await getSortedEvents();
@@ -17,7 +18,7 @@ export default async function EventsPage(): Promise<React.JSX.Element> {
         <div>
           {items.map((e) => (
             <div key={e.slug} className="p-4">
-              <a href={`/events/${e.slug}`} className="flex items-stretch justify-between gap-4 rounded-lg group">
+              <Link href={`/events/${e.slug}`} className="flex items-stretch justify-between gap-4 rounded-lg group">
                 <div className="flex flex-col gap-1 flex-[2_2_0px]">
                   <p className="text-[#637588] text-sm font-normal leading-normal">{formatDisplayDate(e.date)}{e.category ? ` • ${e.category}` : ""}</p>
                   <p className="text-[#111418] text-base font-bold leading-tight group-hover:underline">{e.title}</p>
@@ -28,7 +29,7 @@ export default async function EventsPage(): Promise<React.JSX.Element> {
                   style={{ backgroundImage: `url(${e.image || '/event-placeholder.svg'})` }}
                   aria-label={e.title}
                 />
-              </a>
+              </Link>
             </div>
           ))}
         </div>
