@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default async function Home(): Promise<React.JSX.Element> {
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+  <div className="px-4 sm:px-6 lg:px-12 xl:px-20 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         <div className="@container">
           <div className="@[480px]:px-4 @[480px]:py-3">
@@ -31,7 +31,7 @@ export default async function Home(): Promise<React.JSX.Element> {
           Quick Links
         </h2>
         <div className="pb-3">
-          <div className="flex border-b border-[#dce0e5] px-4 gap-8">
+          <div className="flex flex-wrap sm:flex-nowrap border-b border-[#dce0e5] px-4 gap-4 sm:gap-8 text-center sm:text-left">
             <Link
               className="flex flex-col items-center justify-center border-b-[3px] border-b-[#111418] text-[#111418] gap-1 pb-[7px] pt-2.5"
               href="/events"

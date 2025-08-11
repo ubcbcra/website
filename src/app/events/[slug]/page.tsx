@@ -9,7 +9,7 @@ export default async function EventDetailPage({ params }: { params: Promise<Even
   const evt = await getEventBySlug(slug);
   if (!evt) return notFound();
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+  <div className="px-4 sm:px-6 lg:px-12 xl:px-20 flex flex-1 justify-center py-5">
       <article className="layout-content-container flex flex-col max-w-[760px] flex-1 p-4">
         <p className="text-[#637588] text-sm font-normal leading-normal mb-1">{formatDisplayDate(evt.date)}{evt.category ? ` • ${evt.category}` : ""}</p>
         <h1 className="text-[#111418] tracking-light text-[34px] font-bold leading-tight mb-4">{evt.title}</h1>

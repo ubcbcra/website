@@ -4,10 +4,10 @@ import Link from "next/link";
 export default async function EventsPage(): Promise<React.JSX.Element> {
   const items = await getSortedEvents();
   return (
-    <div className="px-40 flex flex-1 justify-center py-5">
+  <div className="px-4 sm:px-6 lg:px-12 xl:px-20 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         <div className="flex flex-wrap justify-between gap-3 p-4">
-          <div className="flex min-w-72 flex-col gap-3">
+          <div className="flex sm:min-w-72 flex-col gap-3">
             <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight">Events &amp; Updates</p>
             <p className="text-[#637588] text-sm font-normal leading-normal">
               Browse upcoming events, announcements, and recent news. Click any item to read the full post.
