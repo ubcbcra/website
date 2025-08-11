@@ -25,7 +25,7 @@ const members: Member[] = [
     image: "",
     description: "Leads the association, ensuring effective governance and representation of residents' interests.",
     formalDescription: "Leads the association, ensuring effective governance and representation of residents' interests.",
-    funDescription: "Spotted with too many tabs open and plotting ten steps ahead.",
+    funDescription: "Spotted: TP with too many tabs open: AI builds, startups, and side quests galore. Still figuring it out… or quietly ten steps ahead?",
   },
   {
     role: "VP Internal",
@@ -34,7 +34,7 @@ const members: Member[] = [
     image: "",
     description: "Manages internal affairs, including meetings, communications, and member engagement.",
     formalDescription: "Manages internal affairs, meetings, and member engagement.",
-    funDescription: "Probably automating something nobody asked for yet.",
+    funDescription: "Spotted: Akshat Kalra on lunch break #4, back at Brock like he never left. Friendly with everyone, except maybe his manager. Oops.",
   },
   {
     role: "VP External",
@@ -43,7 +43,7 @@ const members: Member[] = [
     image: "",
     description: "Handles external relations, partnerships, and community outreach.",
     formalDescription: "Handles external relations, partnerships, and outreach.",
-    funDescription: "Networking level: remembers everyone’s coffee order.",
+    funDescription: "Spotted: Shikha dashing out of Brock South, again. Time-blind, filter-free, and living loud. Iconic? Or just one joke away from chaos?",
   },
   {
     role: "VP Finance",
@@ -52,7 +52,7 @@ const members: Member[] = [
     image: "",
     description: "Oversees financial matters, budgeting, and resource allocation.",
     formalDescription: "Oversees budgeting and resource allocation.",
-    funDescription: "Budget spreadsheets, but make it aesthetic.",
+    funDescription: "Spotted: Stacy swimming with the locals, fins, flippers, and a sea turtle sidekick. VP Finance on vacation… but who's keeping the receipts?",
   },
   {
     role: "South House President",
@@ -61,7 +61,7 @@ const members: Member[] = [
     image: "",
     description: "Represents South House residents, addresses their concerns, and organizes house-specific events.",
     formalDescription: "Represents South House residents and organizes events.",
-    funDescription: "House vibes curator in chief.",
+    funDescription: "Spotted: Rhea getting rowdy at the Pit. Volume: maxed. Vibes: certified. She’s not just running South… she’s the reason it’s loud.",
   },
   {
     role: "North House President",
@@ -70,7 +70,7 @@ const members: Member[] = [
     image: "",
     description: "Represents North House residents, addresses their concerns, and organizes house-specific events.",
     formalDescription: "Advocates for North House residents and events.",
-    funDescription: "Energy provider: runs on late-night brainstorming.",
+    funDescription: "Spotted: Mayank, unfazed in a snowstorm, calm like it’s part of the plan. North looks steady… but is it him, or just the weather?",
   },
   {
     role: "Tallwood House President",
@@ -79,7 +79,7 @@ const members: Member[] = [
     image: "",
     description: "Represents Tallwood House residents, addresses their concerns, and organizes house-specific events.",
     formalDescription: "Supports Tallwood House community and events.",
-    funDescription: "Calm on the surface, four plans in motion underneath.",
+    funDescription: "Spotted: Dikpaal, smiling post-Grouse Grind like it was a stroll. He conquered the mountain… but can he handle Tallwood’s chaos without breaking a sweat?",
   },
   {
     role: "Health & Sustainability Rep",
