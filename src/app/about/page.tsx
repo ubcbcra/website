@@ -1,23 +1,95 @@
+"use client";
+import { useState } from "react";
+
 type Member = {
   role: string;
   name: string;
   contact: string;
-  image: string;
-  description: string;
+  image: string; // unused (kept for backwards compatibility)
+  description: string; // formal description (legacy)
+  formalDescription?: string;
+  funDescription?: string;
+  // Optionally allow explicit image overrides (relative to /public)
+  formalImage?: string;
+  funImage?: string;
 };
 
 // Member data (update names/roles/emails here). Images are loaded from /public/members
 // using a slug of the member name: e.g. "Akshat Kalra" -> /members/akshat-kalra.jpg.
 // Supported extensions (checked in order): .jpg, .png, .webp, .jpeg
 const members: Member[] = [
-  { role: "President", name: "Tharun Pranav", contact: "president@brockcommons.ca", image: "" , description: "Leads the association, ensuring effective governance and representation of residents' interests." },
-  { role: "VP Internal", name: "Akshat Kalra", contact: "vp.internal@brockcommons.ca", image: "", description: "Manages internal affairs, including meetings, communications, and member engagement." },
-  { role: "VP External", name: "Shikha Rajesh", contact: "vp.external@brockcommons.ca", image: "", description: "Handles external relations, partnerships, and community outreach." },
-  { role: "VP Finance", name: "Stacy", contact: "vp.finance@brockcommons.ca", image: "", description: "Oversees financial matters, budgeting, and resource allocation." },
-  { role: "South House President", name: "Rhea Gujral", contact: "south.president@brockcommons.ca", image: "", description: "Represents South House residents, addresses their concerns, and organizes house-specific events." },
-  { role: "North House President", name: "Mayank", contact: "north.president@brockcommons.ca", image: "", description: "Represents North House residents, addresses their concerns, and organizes house-specific events." },
-  { role: "Tallwood House President", name: "Dikpaal Patel", contact: "tallwood.president@brockcommons.ca", image: "", description: "Represents Tallwood House residents, addresses their concerns, and organizes house-specific events." },
-  { role: "Health & Sustainability Rep", name: "Elaina", contact: "health.sustainability@brockcommons.ca", image: "", description: "Promotes health and sustainability initiatives within the residence community." },
+  {
+    role: "President",
+    name: "Tharun Pranav",
+    contact: "president@brockcommons.ca",
+    image: "",
+    description: "Leads the association, ensuring effective governance and representation of residents' interests.",
+    formalDescription: "Leads the association, ensuring effective governance and representation of residents' interests.",
+    funDescription: "Spotted with too many tabs open and plotting ten steps ahead.",
+  },
+  {
+    role: "VP Internal",
+    name: "Akshat Kalra",
+    contact: "vp.internal@brockcommons.ca",
+    image: "",
+    description: "Manages internal affairs, including meetings, communications, and member engagement.",
+    formalDescription: "Manages internal affairs, meetings, and member engagement.",
+    funDescription: "Probably automating something nobody asked for yet.",
+  },
+  {
+    role: "VP External",
+    name: "Shikha Rajesh",
+    contact: "vp.external@brockcommons.ca",
+    image: "",
+    description: "Handles external relations, partnerships, and community outreach.",
+    formalDescription: "Handles external relations, partnerships, and outreach.",
+    funDescription: "Networking level: remembers everyone’s coffee order.",
+  },
+  {
+    role: "VP Finance",
+    name: "Stacy",
+    contact: "vp.finance@brockcommons.ca",
+    image: "",
+    description: "Oversees financial matters, budgeting, and resource allocation.",
+    formalDescription: "Oversees budgeting and resource allocation.",
+    funDescription: "Budget spreadsheets, but make it aesthetic.",
+  },
+  {
+    role: "South House President",
+    name: "Rhea Gujral",
+    contact: "south.president@brockcommons.ca",
+    image: "",
+    description: "Represents South House residents, addresses their concerns, and organizes house-specific events.",
+    formalDescription: "Represents South House residents and organizes events.",
+    funDescription: "House vibes curator in chief.",
+  },
+  {
+    role: "North House President",
+    name: "Mayank",
+    contact: "north.president@brockcommons.ca",
+    image: "",
+    description: "Represents North House residents, addresses their concerns, and organizes house-specific events.",
+    formalDescription: "Advocates for North House residents and events.",
+    funDescription: "Energy provider: runs on late-night brainstorming.",
+  },
+  {
+    role: "Tallwood House President",
+    name: "Dikpaal Patel",
+    contact: "tallwood.president@brockcommons.ca",
+    image: "",
+    description: "Represents Tallwood House residents, addresses their concerns, and organizes house-specific events.",
+    formalDescription: "Supports Tallwood House community and events.",
+    funDescription: "Calm on the surface, four plans in motion underneath.",
+  },
+  {
+    role: "Health & Sustainability Rep",
+    name: "Elaina",
+    contact: "health.sustainability@brockcommons.ca",
+    image: "",
+    description: "Promotes health and sustainability initiatives within the residence community.",
+    formalDescription: "Promotes health and sustainability initiatives.",
+    funDescription: "Turning green ideas into everyday habits.",
+  },
 ];
 
 function toSlug(name: string) {
@@ -29,25 +101,43 @@ function possibleImagePaths(name: string): string[] {
   return [".jpg", ".png", ".webp", ".jpeg"].map(ext => `/members/${slug}${ext}`);
 }
 
-function pickImage(name: string): string {
-  // We can't statically check existence at build without fs; just return first path.
-  // User should place appropriately named file in public/members.
-  return possibleImagePaths(name)[0];
+function pickImage(name: string, variant: 'formal' | 'fun'): string {
+  // convention: /members/<slug>[-fun].(jpg|png|webp|jpeg)
+  const base = toSlug(name) + (variant === 'fun' ? '-fun' : '');
+  return [".jpg", ".png", ".webp", ".jpeg"].map(ext => `/members/${base}${ext}`)[0];
 }
 
 export default function AboutPage(): React.JSX.Element {
+  const [mode, setMode] = useState<'formal' | 'fun'>('formal');
   return (
-  <div className="px-4 sm:px-6 lg:px-12 xl:px-20 flex flex-1 justify-center py-5">
+    <div className="px-4 sm:px-6 lg:px-12 xl:px-20 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <div className="flex min-w-72 flex-col gap-3">
             <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight">Council Members</p>
             <p className="text-[#637588] text-sm font-normal leading-normal">Meet the dedicated team leading the Brock Commons Residence Association.</p>
+            <div className="flex gap-2 mt-2">
+              <button
+                type="button"
+                onClick={() => setMode('formal')}
+                className={`h-8 px-4 rounded-lg text-xs font-medium tracking-wide border transition ${mode === 'formal' ? 'bg-[#1773cf] text-white border-[#1773cf]' : 'bg-[#f0f2f4] text-[#111418] border-transparent hover:bg-[#e4e7ea]'}`}
+              >
+                Formal
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode('fun')}
+                className={`h-8 px-4 rounded-lg text-xs font-medium tracking-wide border transition ${mode === 'fun' ? 'bg-[#1773cf] text-white border-[#1773cf]' : 'bg-[#f0f2f4] text-[#111418] border-transparent hover:bg-[#e4e7ea]'}`}
+              >
+                Fun
+              </button>
+            </div>
           </div>
         </div>
 
-  {members.map((m) => {
-    const img = m.image || pickImage(m.name) || '/member-placeholder.svg';
+        {members.map((m) => {
+          const img = (mode === 'fun' ? m.funImage : m.formalImage) || pickImage(m.name, mode) || '/member-placeholder.svg';
+          const desc = mode === 'fun' ? (m.funDescription || m.description) : (m.formalDescription || m.description);
     return (
           <section key={m.role} className="mb-2">
             <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">{m.role}</h2>
@@ -61,7 +151,7 @@ export default function AboutPage(): React.JSX.Element {
                   <p className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em]">{m.name}</p>
                   <div className="flex items-end gap-3 justify-between">
                     <p className="text-[#637588] text-base font-normal leading-normal">
-                      {m.description} Contact: {m.contact}
+                      {desc} Contact: {m.contact}
                     </p>
                     <a
                       href={`mailto:${m.contact}`}
