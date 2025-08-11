@@ -10,7 +10,10 @@ export default function Navbar(): React.JSX.Element {
             <path fillRule="evenodd" clipRule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor"></path>
           </svg>
         </div>
-        <h2 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em]">Brock Commons</h2>
+        <h1 className="text-[#111418] text-base sm:text-lg font-bold leading-tight tracking-[-0.015em]">
+          <span className="hidden sm:inline">Brock Commons Residence Association</span>
+          <span className="sm:hidden">Brock Commons RA</span>
+        </h1>
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
