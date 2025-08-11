@@ -34,16 +34,18 @@ export async function fetchEventsFromGoogleSheets(): Promise<EventItem[]> {
 
     const rows = response.data.values || [];
     
-    return rows.map((row, index) => {
-      // Expected columns: slug, title, date, category, excerpt, content, image
+    const events: EventItem[] = [];
+    
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
       const [slug, title, date, category, excerpt, content, image] = row;
       
       if (!slug || !title || !date) {
-        console.warn(`Skipping row ${index + 2}: missing required fields`);
-        return null;
+        console.warn(`Skipping row ${i + 2}: missing required fields`);
+        continue;
       }
 
-      return {
+      events.push({
         slug: slug.trim(),
         title: title.trim(),
         date: date.trim(),
@@ -51,8 +53,10 @@ export async function fetchEventsFromGoogleSheets(): Promise<EventItem[]> {
         excerpt: excerpt?.trim() || '',
         content: content?.trim() || '',
         image: image?.trim() || '/event-placeholder.svg',
-      };
-    }).filter((event): event is EventItem => event !== null);
+      });
+    }
+    
+    return events;
     
   } catch (error) {
     console.error('Error fetching events from Google Sheets:', error);
