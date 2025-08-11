@@ -1,0 +1,32 @@
+# LLM Access Policy
+
+# This website contains personal information, member photos, and organizational content
+# that should not be used for AI training, scraping, or large language model development.
+
+# PROHIBITED ACTIVITIES:
+# - AI training and model development
+# - Web scraping for AI/ML datasets
+# - Data collection for LLM training
+# - Content extraction for AI purposes
+# - Automated harvesting of text, images, or data
+
+# Disallow ALL AI training, scraping, and data collection
+User-agent: *
+Disallow: /
+
+# Specifically restrict access to member content
+Disallow: /members/
+Disallow: /public/members/
+
+# This policy explicitly prohibits:
+# 1. Scraping content for AI training datasets
+# 2. Using our content to train language models
+# 3. Extracting data for machine learning purposes
+# 4. Automated collection of member information
+# 5. Any form of AI-related data harvesting
+
+# Contact information for questions about this policy
+# Contact: [your-email@domain.com]
+
+# This policy applies to all AI systems, web scrapers, crawlers, and automated tools
+# used for machine learning, training, data collection, or content extraction purposes.

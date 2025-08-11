@@ -1,0 +1,41 @@
+# Robots.txt for UBC BCRA Website
+
+# Allow general web crawlers for SEO
+User-agent: *
+Allow: /
+
+# Protect member photos and sensitive content
+Disallow: /public/members/
+Disallow: /admin/
+Disallow: /api/
+
+# Common AI/ML crawlers - block entirely
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+# Reference to LLM policy
+# See /llms.txt for AI training policy
+
+# Sitemap (optional - uncomment when you have one)
+# Sitemap: https://yourdomain.com/sitemap.xml
