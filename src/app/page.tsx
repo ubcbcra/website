@@ -1,3 +1,5 @@
+import { getSortedEvents } from "../lib/events";
+
 export default function Home(): React.JSX.Element {
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
@@ -74,10 +76,44 @@ export default function Home(): React.JSX.Element {
             </a>
           </div>
         </div>
-        <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-          News &amp; Announcements
-        </h2>
+        <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">News &amp; Announcements</h2>
+        <HomeEventList />
       </div>
     </div>
   );
+}
+
+function HomeEventList() {
+  const items = getSortedEvents().slice(0, 3);
+  return (
+    <div>
+      {items.map((e) => (
+        <div key={e.slug} className="p-4">
+          <a href={`/events/${e.slug}`} className="flex items-stretch justify-between gap-4 rounded-lg group">
+            <div className="flex flex-col gap-1 flex-[2_2_0px]">
+              <p className="text-[#637588] text-sm font-normal leading-normal">{formatDisplayDate(e.date)}{e.category ? ` • ${e.category}` : ""}</p>
+              <p className="text-[#111418] text-base font-bold leading-tight group-hover:underline">{e.title}</p>
+              <p className="text-[#637588] text-sm font-normal leading-normal line-clamp-3">{e.excerpt}</p>
+            </div>
+            <div
+              className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1"
+              style={{ backgroundImage: `url(${e.image})` }}
+              aria-label={e.title}
+            />
+          </a>
+        </div>
+      ))}
+      <div className="px-4 pt-2">
+        <a href="/events" className="text-sm font-medium text-[#1773cf] hover:underline">View all events →</a>
+      </div>
+    </div>
+  );
+}
+
+function formatDisplayDate(iso: string) {
+  try {
+    return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  } catch {
+    return iso;
+  }
 }
