@@ -96,15 +96,30 @@ function toSlug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-function possibleImagePaths(name: string): string[] {
-  const slug = toSlug(name);
-  return [".jpg", ".png", ".webp", ".jpeg"].map(ext => `/members/${slug}${ext}`);
+function buildImageCandidates(name: string, variant: 'formal' | 'fun'): string[] {
+  const slug = toSlug(name) + (variant === 'fun' ? '-fun' : '');
+  return [".webp", ".jpg", ".jpeg", ".png"].map(ext => `/members/${slug}${ext}`);
 }
 
-function pickImage(name: string, variant: 'formal' | 'fun'): string {
-  // convention: /members/<slug>[-fun].(jpg|png|webp|jpeg)
-  const base = toSlug(name) + (variant === 'fun' ? '-fun' : '');
-  return [".jpg", ".png", ".webp", ".jpeg"].map(ext => `/members/${base}${ext}`)[0];
+function MemberImage({ member, variant }: { member: Member; variant: 'formal' | 'fun' }) {
+  const explicit = variant === 'fun' ? member.funImage : member.formalImage;
+  const candidates = (explicit ? [explicit] : buildImageCandidates(member.name, variant)).concat(['/member-placeholder.svg']);
+  const [index, setIndex] = useState(0);
+  const src = candidates[index];
+  return (
+    <div className="w-full aspect-[3/4] rounded-lg overflow-hidden bg-[#e4e7ea] flex items-center justify-center">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={`${member.name} photo (${variant})`}
+        className="h-full w-full object-cover"
+        onError={() => {
+          setIndex(i => (i < candidates.length - 1 ? i + 1 : i));
+        }}
+        loading="lazy"
+      />
+    </div>
+  );
 }
 
 export default function AboutPage(): React.JSX.Element {
@@ -136,17 +151,13 @@ export default function AboutPage(): React.JSX.Element {
         </div>
 
         {members.map((m) => {
-          const img = (mode === 'fun' ? m.funImage : m.formalImage) || pickImage(m.name, mode) || '/member-placeholder.svg';
           const desc = mode === 'fun' ? (m.funDescription || m.description) : (m.formalDescription || m.description);
     return (
           <section key={m.role} className="mb-2">
             <h2 className="text-[#111418] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">{m.role}</h2>
             <div className="p-4 @container">
               <div className="flex flex-col items-stretch justify-start rounded-lg @xl:flex-row @xl:items-start">
-                <div
-                  className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
-      style={{ backgroundImage: `url(${img})` }}
-                />
+                <MemberImage member={m} variant={mode} />
                 <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 py-4 @xl:px-4">
                   <p className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em]">{m.name}</p>
                   <div className="flex items-end gap-3 justify-between">
